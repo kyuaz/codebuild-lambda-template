@@ -1,0 +1,27 @@
+[
+    {
+        "ParameterKey": "ProjectName",
+        "ParameterValue": "app-xxx",
+        "UsePreviousValue": false
+    },
+    {
+        "ParameterKey": "ArchiveBucket",
+        "ParameterValue": "sample-bucket",
+        "UsePreviousValue": false
+    },
+    {
+        "ParameterKey": "ArchiveS3Path",
+        "ParameterValue": "app-xxx/deploy/lambda.zip",
+        "UsePreviousValue": false
+    },
+    {
+        "ParameterKey": "AccountId",
+        "ParameterValue": "123456789012",
+        "UsePreviousValue": false
+    },
+    {
+        "ParameterKey": "Region",
+        "ParameterValue": "ap-northeast-1",
+        "UsePreviousValue": false
+    }
+]

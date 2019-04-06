@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ProjectName:
+    Type: String
+    Default: app-xxx
+  AccountId:
+    Type: String
+    Default: 123456789012
+  ArchiveBucket:
+    Type: String
+    Default: sample-bucket
+  ArchiveS3Path:
+    Type: String
+    Default: app-xxx/deploy/lambda.zip
+  Region:
+    Type: String
+    Default: ap-northeast-1
+Resources:
+  LambdaScheduleEvent:
+    Type: AWS::Events::Rule
+    Properties:
+        Description: ’schedule event for lambda’
+        ScheduleExpression: 'cron(0/1 * ? * MON-FRI *)'
+        State: ENABLED
+        Targets:
+          - Arn: !Sub 'arn:aws:lambda:ap-northeast-1:${AccountId}:function:${ProjectName}:PROD'
+            Id: ScheduleEvent1Target
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !Sub 'arn:aws:lambda:ap-northeast-1:${AccountId}:function:${ProjectName}:PROD'
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt LambdaScheduleEvent.Arn

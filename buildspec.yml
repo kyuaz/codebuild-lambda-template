@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  variables:
+    LAMBDA_VERSION: "0.1"
+
+phases:
+  install:
+    commands:
+      - pwd
+      - ls -l
+  pre_build:
+    commands:
+      - sh pre_build.sh
+  build:
+    commands:
+      - sh build.sh
+  post_build:
+    commands:
+      - sh post_build.sh

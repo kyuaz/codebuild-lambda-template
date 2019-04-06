@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ProjectName:
+    Type: String
+    Default: app-xxx
+  AccountId:
+    Type: String
+    Default: 123456789012
+  ArchiveBucket:
+    Type: String
+    Default: sample-bucket
+  ArchiveS3Path:
+    Type: String
+    Default: app-xxx/deploy/lambda.zip
+  Region:
+    Type: String
+    Default: ap-northeast-1
+  LambdaRoleName:
+    Type: String
+    Default: app-xxx-role
+Resources:
+  LambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      FunctionName: !Ref ProjectName
+      Handler: index.handler
+      Role: !Sub 'arn:aws:iam::${AccountId}:role/${LambdaRoleName}'
+      Runtime: nodejs8.10
+      Timeout: 60
+      Code:
+        S3Bucket: !Ref ArchiveBucket
+        S3Key: !Ref ArchiveS3Path
+      Tags:
+        -
+          Key: COST
+          Value: !Sub 
+          - lambda-${prj}
+          - prj: !Ref ProjectName

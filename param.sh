@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ENV_PARAM_LAMBDA_DEPLOY="LAMBDA_DEPLOY"
+ENV_PARAM_LAMBDA_FUNCTION_UPDATE="LAMBDA_UPDATE"
+ENV_PARAM_EVENTS_DEPLOY="EVENTS_DEPLOY"
+ENV_PARAM_CREATE_ALIAS="CREATE_ALIAS"
+ENV_PARAM_UPDATE_ALIAS="UPDATE_ALIAS"
+ENV_PARAM_PUBLISH_VERSION="PUBLISH_VERSION"
+
+if [ -z "$MODE" ]; then
+    MODE="$ENV_PARAM_LAMBDA_FUNCTION_UPDATE"
+fi
+echo "MODE = ${MODE}"
+
+PRJ_NAME="app-xxx"
+
+if [ "$MODE" = "$ENV_PARAM_LAMBDA_DEPLOY" ]; then
+    TEMPLATE_FILE="template.yaml"
+    TEMPLATE_PARAMETER_FILE="template_param.json"
+    STACK_NAME="${PRJ_NAME}-nodejs-lambda"
+elif [ "$MODE" = "$ENV_PARAM_EVENTS_DEPLOY" ]; then
+    TEMPLATE_FILE="events_template.yaml"
+    TEMPLATE_PARAMETER_FILE="template_param.json"
+    STACK_NAME="${PRJ_NAME}-events"
+fi
+
+
+S3_BUCKET_NAME="sample-bucket"
+S3_DEPLOY_DIR="s3://${S3_BUCKET_NAME}/${PRJ_NAME}/deploy/"
+S3_TEMPLATE_DIR="s3://${S3_BUCKET_NAME}/${PRJ_NAME}/template/"
+S3_KEY_LAMBDA="${PRJ_NAME}/deploy/lambda.zip"
+REGION="ap-northeast-1"
+TEMPLATE_URL="https://s3-${REGION}.amazonaws.com/${S3_BUCKET_NAME}/${PRJ_NAME}/template/${TEMPLATE_FILE}"
+TAG_COST_VALUE="cf-${STACK_NAME}"
+
